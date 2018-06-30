@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="bug tracking system" target="1.5" />
+      <module name="bug tracking system" target="7" />
     </bytecodeTargetLevel>
   </component>
 </project>
