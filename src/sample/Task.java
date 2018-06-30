@@ -5,7 +5,7 @@ public class Task {
     private String Subject;
     private String type;
     private int priority;
-    private int user_id;
+    private int userId;
     private String description;
 
     public int getProjectId() {
@@ -40,12 +40,12 @@ public class Task {
         this.priority = priority;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int user_id) {
+        this.userId = user_id;
     }
 
     public String getDescription() {
