@@ -25,10 +25,11 @@ class DataBaseHandler {
                         " 'priority' INTEGER," +
                         " 'password' TEXT" +
                         ");");
+                conn.close();
     }
-    Statement LoadDB(File fileName) throws SQLException {
+    Connection LoadDB(File fileName) throws SQLException {
         String url = "jdbc:sqlite:" + fileName.getAbsolutePath();
         Connection conn = DriverManager.getConnection(url);
-        return conn.createStatement();
+        return conn;
     }
 }

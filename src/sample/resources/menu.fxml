@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -14,7 +11,7 @@
             <Menu text="File">
                 <items>
                     <MenuItem text="New"  onAction="#handleNewDBAction"/>
-                    <MenuItem text="Open"/>
+                    <MenuItem text="Open" onAction="#handleLoadDBAction"/>
                     <MenuItem text="Save"/>
                     <MenuItem text="Save As"/>
                     <SeparatorMenuItem  />
@@ -23,7 +20,7 @@
             </Menu>
             <Menu text="Edit">
                 <items>
-                    <MenuItem text="Copy"/>
+                    <MenuItem text="Добавить пользователя" onAction="#handleAddUserAction"/>
                     <MenuItem text="Cut"/>
                     <MenuItem text="Paste"/>
                 </items>
