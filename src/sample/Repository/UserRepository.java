@@ -4,6 +4,7 @@ import sample.User;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository implements Repository<User> {
@@ -50,6 +51,25 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public List<User> query(String specification) {
-        return null;
+        String sql = "SELECT id, name, priority, password FROM users " + specification;
+        List<User> list = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            // loop through the result set
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setName(rs.getString("name"));
+                user.setPriority(rs.getInt("priority"));
+                user.setPassword(rs.getString("password"));
+                list.add(user);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }
