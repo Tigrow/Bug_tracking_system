@@ -41,7 +41,16 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public void remove(User item) {
+        String sql = "DELETE FROM users WHERE id = ?";
 
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, item.getId());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
