@@ -3,7 +3,9 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AddUserController {
@@ -12,9 +14,9 @@ public class AddUserController {
     @FXML
     private Button buttonCancel;
     @FXML
-    private TextArea textAreaName;
+    private TextField textFieldName;
     @FXML
-    private TextArea textAreaPassword;
+    private PasswordField passwordField;
 
     private boolean okClicked = false;
     private Stage dialogStage;
@@ -28,8 +30,7 @@ public class AddUserController {
         this.user = user;
         this.dialogStage = dialogStage;
         if(editing){
-            textAreaName.setText(user.getName());
-            textAreaPassword.setText(user.getPassword());
+            textFieldName.setText(user.getName());
         }
     }
 
@@ -38,8 +39,8 @@ public class AddUserController {
     }
 
     public void handleOkAction(ActionEvent actionEvent) {
-        user.setName(textAreaName.getText());
-        user.setPassword(textAreaPassword.getText());
+        user.setName(textFieldName.getText());
+        user.setPassword(passwordField.getPromptText());
         okClicked = true;
         dialogStage.close();
     }
