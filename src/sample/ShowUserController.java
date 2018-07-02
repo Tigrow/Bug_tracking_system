@@ -29,7 +29,7 @@ public class ShowUserController {
         listView.setItems(list);
     }
 
-    protected void handleAddAction(ActionEvent actionEvent) {
+    public void handleAddAction(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("resources/adduser.fxml"));
         GridPane page = null;
@@ -50,9 +50,9 @@ public class ShowUserController {
         dialogStage.showAndWait();
     }
 
-    protected void handleEditAction(ActionEvent actionEvent) {
+    public void handleEditAction(ActionEvent actionEvent) {
     }
 
-    protected void handleDeleteAction(ActionEvent actionEvent) {
+    public void handleDeleteAction(ActionEvent actionEvent) {
     }
 }

@@ -24,8 +24,8 @@
       <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#handleCancelAction" text="Отмена" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <Label text="Имя пользователя" />
       <Label text="Пароль" GridPane.rowIndex="1" />
-      <TextArea fx:id="textAreaName" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-      <TextArea fx:id="textAreaPassword" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextArea fx:id="textAreaName" maxHeight="20.0" prefHeight="20.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+      <TextArea fx:id="textAreaPassword" maxHeight="20.0" prefHeight="20.0" prefWidth="116.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Label text="Label" GridPane.rowIndex="2" />
    </children>
