@@ -24,18 +24,23 @@ public class AddUserController {
         dialogStage.close();
     }
 
-    public void setDialogStage(Stage dialogStage) {
+    public void start(Stage dialogStage,User user,int priority,boolean editing) {
+        this.user = user;
         this.dialogStage = dialogStage;
+        if(editing){
+            textAreaName.setText(user.getName());
+            textAreaPassword.setText(user.getPassword());
+        }
     }
 
-    public User isOkClicked() {
-        return user;
+    public boolean isOkClicked() {
+        return okClicked;
     }
 
     public void handleOkAction(ActionEvent actionEvent) {
-        user = new User();
         user.setName(textAreaName.getText());
         user.setPassword(textAreaPassword.getText());
+        okClicked = true;
         dialogStage.close();
     }
 }
