@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -49,29 +50,28 @@ public class Controller {
     }
 
     public void handleAddUserAction(ActionEvent actionEvent) {
-        userRepository.add(showAddUserDialog());
+        showAddUserDialog();
     }
-    private User showAddUserDialog(){
+    private void showAddUserDialog(){
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("resources/adduser.fxml"));
-            GridPane page =  loader.load();
+            loader.setLocation(Main.class.getResource("resources/showUsersDialog.fxml"));
+            VBox page =  loader.load();
 
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("User editor");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(null);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            AddUserController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-
-            dialogStage.showAndWait();
-            return controller.isOkClicked();
+            ShowUserController controller = loader.getController();
+            controller.OnStart(userRepository, dialogStage);
+            dialogStage.show();
+            //return null;//controller.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            //return null;
         }
     }
 
