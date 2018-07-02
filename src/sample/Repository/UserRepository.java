@@ -36,7 +36,22 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public void update(User item) {
+        String sql = "UPDATE users SET name = ? , "
+                + "priority = ?,"
+                + "password = ?"
+                + "WHERE id = ?";
 
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, item.getName());
+            pstmt.setInt(2, item.getPriority());
+            pstmt.setString(3,item.getPassword());
+            pstmt.setInt(4, item.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
