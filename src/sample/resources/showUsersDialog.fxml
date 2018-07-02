@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="394.0"
-          prefWidth="313.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-    </rowConstraints>
-    <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0"/>
-</GridPane>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="sample.ShowUserController">
+   <VBox prefHeight="540.0" prefWidth="400.0">
+      <children>
+         <ListView fx:id="listView" prefHeight="565.0" prefWidth="400.0"/>
+      </children>
+   </VBox>
+   <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="394.0">
+      <children>
+         <Button mnemonicParsing="false" onAction="#handleAddAction" text="Add" textAlignment="JUSTIFY">
+            <opaqueInsets>
+               <Insets/>
+            </opaqueInsets>
+            <HBox.margin>
+               <Insets right="10.0"/>
+            </HBox.margin>
+         </Button>
+         <Button mnemonicParsing="false" onAction="#handleEditAction" text="Edit" textAlignment="JUSTIFY">
+            <HBox.margin>
+               <Insets right="10.0"/>
+            </HBox.margin>
+         </Button>
+         <Button mnemonicParsing="false" onAction="#handleDeleteAction" text="Delete" textAlignment="JUSTIFY">
+            <HBox.margin>
+               <Insets right="10.0"/>
+            </HBox.margin>
+         </Button>
+      </children>
+      <VBox.margin>
+         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+      </VBox.margin>
+      <padding>
+         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+      </padding>
+      <effect>
+         <Blend/>
+      </effect>
+   </HBox>
+</VBox>
