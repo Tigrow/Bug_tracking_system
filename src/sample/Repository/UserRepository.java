@@ -56,8 +56,6 @@ public class UserRepository implements Repository<User> {
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
-
-            // loop through the result set
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));

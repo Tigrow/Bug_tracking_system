@@ -1,6 +1,5 @@
 package sample.Repository;
 
-import java.io.File;
 import java.util.List;
 
 public interface Repository<T> {

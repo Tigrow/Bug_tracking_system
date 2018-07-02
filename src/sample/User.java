@@ -2,7 +2,7 @@ package sample;
 
 public class User {
     private int id;
-    private String Name;
+    private String name;
     private int priority;
     private String password;
 
@@ -15,11 +15,11 @@ public class User {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public int getPriority() {
