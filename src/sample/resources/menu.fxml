@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox id="vbox" prefHeight="400" prefWidth="800"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="sample.Controller">
+<VBox id="vbox" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
         <Menu text="File">
-            <MenuItem text="New" onAction="#handleNewDBAction"/>
-            <MenuItem text="Open" onAction="#handleLoadDBAction"/>
-            <MenuItem text="Save"/>
-            <MenuItem text="Save As"/>
-            <SeparatorMenuItem/>
-            <MenuItem text="Exit"/>
+            <MenuItem onAction="#handleNewDBAction" text="New" />
+            <MenuItem onAction="#handleLoadDBAction" text="Open" />
+            <MenuItem text="Save" />
+            <MenuItem text="Save As" />
+            <SeparatorMenuItem />
+            <MenuItem text="Exit" />
         </Menu>
-        <Menu text="Edit">
-            <MenuItem text="User editor" onAction="#handleAddUserAction"/>
-            <MenuItem text="Cut"/>
-            <MenuItem text="Paste"/>
+        <Menu text="Users">
+              <MenuItem onAction="#handleAddUserAction" text="User editor" />
         </Menu>
         <Menu text="Help">
-            <MenuItem text="Search" disable="true"/>
-            <MenuItem text="Online Manual" visible="false"/>
-            <SeparatorMenuItem/>
-            <MenuItem text="About" onAction="#handleAboutAction"/>
+            <MenuItem disable="true" text="Search" />
+            <MenuItem text="Online Manual" visible="false" />
+            <SeparatorMenuItem />
+            <MenuItem onAction="#handleAboutAction" text="About" />
         </Menu>
     </MenuBar>
+   <TabPane fx:id="tabPane" prefHeight="385.0" prefWidth="800.0">
+     <tabs>
+       <Tab closable="false" onSelectionChanged="#handleAddProjectAction" text="+">
+            <content>
+
+            </content>
+       </Tab>
+     </tabs>
+   </TabPane>
 </VBox>
