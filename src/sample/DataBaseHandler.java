@@ -18,14 +18,17 @@ class DataBaseHandler {
 
         Connection conn = DriverManager.getConnection(url);
                 DatabaseMetaData meta = conn.getMetaData();
-                Statement statmt = conn.createStatement();
-                statmt.execute("CREATE TABLE if not exists 'users' (" +
+                Statement statement = conn.createStatement();
+                statement.execute("CREATE TABLE if not exists 'users' (" +
                         "'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
                         " 'name' TEXT," +
                         " 'priority' INTEGER," +
                         " 'password' TEXT" +
                         ");");
-                conn.close();
+                statement.execute("CREATE TABLE if not exists 'projects' (" +
+                        "'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "'name' TEXT" +
+                        ");");
     }
     Connection LoadDB(File fileName) throws SQLException {
         String url = "jdbc:sqlite:" + fileName.getAbsolutePath();
