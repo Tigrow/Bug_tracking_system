@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.Repository.ProjectRepository;
 import sample.Repository.UserRepository;
 
 import java.io.*;
@@ -23,9 +24,13 @@ import java.util.Properties;
 public class Controller {
 
     @FXML
-    TabPane tabPane;
+    private TabPane tabPane;
 
     private UserRepository userRepository;
+    private ProjectRepository projectRepository;
+    private Stage primaryStage;
+    private boolean isFileDbLoaded = false;
+    private boolean isUserLogined = false;
 
     public void handleAboutAction(ActionEvent actionEvent) {
     }
@@ -37,7 +42,10 @@ public class Controller {
         try {
             if(file!=null){
             userRepository = new UserRepository(file);
+            projectRepository = new ProjectRepository(file);
             saveParamChanges(file);
+            setTitleName(file);
+            isFileDbLoaded = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,6 +61,9 @@ public class Controller {
             if(file!=null){
             DataBaseHandler.getInstance().CreateDB(file);
             userRepository = new UserRepository(file);
+            projectRepository = new ProjectRepository(file);
+            saveParamChanges(file);
+            setTitleName(file);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,6 +73,11 @@ public class Controller {
     public void handleAddUserAction(ActionEvent actionEvent) {
         showAddUserDialog();
     }
+
+    public void handleAddProjectAction(Event event) {
+        addNewProject();
+    }
+
     private void showAddUserDialog(){
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -85,7 +101,14 @@ public class Controller {
         }
     }
 
-    private void loadParams() {
+    private void setTitleName(File file){
+        primaryStage.setTitle("Bug Tracking System"+" [" +
+                file.getAbsolutePath() +
+                "]");
+    }
+
+    void loadParams(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         Properties props = new Properties();
         InputStream is;
         try {
@@ -98,6 +121,7 @@ public class Controller {
             File fileDB = new File(props.getProperty("lastDB", "/TEST.db"));
             DataBaseHandler.getInstance().CreateDB(fileDB);
             userRepository = new UserRepository(fileDB);
+            setTitleName(fileDB);
         }
         catch ( Exception e ) { }
     }
@@ -114,12 +138,7 @@ public class Controller {
         }
     }
 
-    public void handleAddProjectAction(Event event) {
-        loadParams();
-        addNewTab();
-    }
-
-    private void addNewTab(){
+    private void addNewProject(){
         try {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("resources/projectTab.fxml"));

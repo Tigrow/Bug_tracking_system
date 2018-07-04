@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox id="vbox" prefHeight="400" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
@@ -21,15 +23,26 @@
         <Menu text="Users">
               <MenuItem onAction="#handleAddUserAction" text="User editor" />
         </Menu>
-        <Menu text="Help">
+        <Menu text="Projects">
             <MenuItem disable="true" text="Search" />
             <MenuItem text="Online Manual" visible="false" />
             <SeparatorMenuItem />
             <MenuItem onAction="#handleAboutAction" text="About" />
         </Menu>
     </MenuBar>
-    <TabPane fx:id="tabPane" prefHeight="385.0" prefWidth="800.0">
-        <Tab closable="false" onSelectionChanged="#handleAddProjectAction" text="+">
-        </Tab>
-    </TabPane>
+    <VBox prefHeight="376.0" prefWidth="800.0">
+        <HBox prefHeight="50.0" prefWidth="800.0">
+            <Button mnemonicParsing="false" onAction="#handleAddProjectAction" text="Add project">
+                <HBox.margin>
+                    <Insets left="3.0" right="3.0"/>
+                </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Delete project">
+                <HBox.margin>
+                    <Insets left="3.0" right="3.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+        <TabPane fx:id="tabPane" prefHeight="388.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE"/>
+    </VBox>
 </VBox>

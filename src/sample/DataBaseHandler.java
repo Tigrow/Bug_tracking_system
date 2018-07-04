@@ -30,9 +30,4 @@ class DataBaseHandler {
                         "'name' TEXT" +
                         ");");
     }
-    Connection LoadDB(File fileName) throws SQLException {
-        String url = "jdbc:sqlite:" + fileName.getAbsolutePath();
-        Connection conn = DriverManager.getConnection(url);
-        return conn;
-    }
 }
