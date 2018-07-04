@@ -148,6 +148,8 @@ public class Controller {
         tab.setContent(hbox);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
+        Project project = new Project();
+        //projectRepository.add();
         } catch (IOException e) {
             e.printStackTrace();
         }

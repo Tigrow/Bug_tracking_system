@@ -17,13 +17,18 @@ public class ProjectRepository implements Repository<Project>{
         Connection conn = DriverManager.getConnection(url);
     }
     @Override
-    public void add(Project item) {
+    public Project add(Project item) {
         String sql = "INSERT INTO projects(name) VALUES(?)";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,item.getName() );
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            item.setId(rs.getInt(1));
+            return item;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
     }
 
@@ -33,15 +38,19 @@ public class ProjectRepository implements Repository<Project>{
     }
 
     @Override
-    public void update(Project item) {
+    public Project update(Project item) {
         String sql = "UPDATE projects SET name = ?"
                 + "WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, item.getName());
             pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            item.setId(rs.getInt(1));
+            return item;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
     }
 

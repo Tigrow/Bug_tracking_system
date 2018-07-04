@@ -16,16 +16,20 @@ public class UserRepository implements Repository<User> {
     }
 
     @Override
-    public void add(User user) {
+    public User add(User item) {
         String sql = "INSERT INTO users(name,priority,password) VALUES(?,?,?)";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1,user.getName() );
-            pstmt.setInt(2, user.getPriority());
-            pstmt.setString(3,user.getPassword());
+            pstmt.setString(1,item.getName() );
+            pstmt.setInt(2, item.getPriority());
+            pstmt.setString(3,item.getPassword());
             pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            item.setId(rs.getInt(1));
+            return item;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
     }
 
@@ -35,7 +39,7 @@ public class UserRepository implements Repository<User> {
     }
 
     @Override
-    public void update(User item) {
+    public User update(User item) {
         String sql = "UPDATE users SET name = ? , "
                 + "priority = ?,"
                 + "password = ?"
@@ -49,8 +53,12 @@ public class UserRepository implements Repository<User> {
             pstmt.setString(3,item.getPassword());
             pstmt.setInt(4, item.getId());
             pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            item.setId(rs.getInt(1));
+            return item;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
     }
 

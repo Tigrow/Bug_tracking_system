@@ -50,8 +50,7 @@ public class ShowUserController {
         controller.start(dialogStage,user,0,false);
         dialogStage.showAndWait();
         if(controller.isOkClicked()){
-            userRepository.add(user);
-            list.add(user);
+            list.add(userRepository.add(user));
         }
     }
 

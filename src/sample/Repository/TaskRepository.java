@@ -6,8 +6,8 @@ import java.util.List;
 
 public class TaskRepository implements Repository<Task> {
     @Override
-    public void add(Task item) {
-
+    public Task add(Task item) {
+        return null;
     }
 
     @Override
@@ -16,8 +16,8 @@ public class TaskRepository implements Repository<Task> {
     }
 
     @Override
-    public void update(Task item) {
-
+    public Task update(Task item) {
+        return null;
     }
 
     @Override

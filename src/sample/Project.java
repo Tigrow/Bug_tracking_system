@@ -19,4 +19,16 @@ public class Project {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Project(String name) {
+        this.name = name;
+    }
+
+    public Project() {
+    }
+
+    public Project(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
