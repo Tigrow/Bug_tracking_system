@@ -27,9 +27,6 @@ public class Controller {
 
     private UserRepository userRepository;
 
-    public void handleKeyInput(KeyEvent keyEvent) {
-    }
-
     public void handleAboutAction(ActionEvent actionEvent) {
     }
     public void handleLoadDBAction(ActionEvent actionEvent) {
