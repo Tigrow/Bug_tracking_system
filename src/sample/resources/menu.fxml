@@ -23,12 +23,6 @@
         <Menu text="Users">
               <MenuItem onAction="#handleAddUserAction" text="User editor" />
         </Menu>
-        <Menu text="Projects">
-            <MenuItem disable="true" text="Search" />
-            <MenuItem text="Online Manual" visible="false" />
-            <SeparatorMenuItem />
-            <MenuItem onAction="#handleAboutAction" text="About" />
-        </Menu>
     </MenuBar>
     <VBox prefHeight="376.0" prefWidth="800.0">
         <HBox prefHeight="50.0" prefWidth="800.0">
