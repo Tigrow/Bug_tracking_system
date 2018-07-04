@@ -29,5 +29,14 @@ class DataBaseHandler {
                         "'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "'name' TEXT" +
                         ");");
+                statement.execute("CREATE TABLE if not exists 'tasks' (" +
+                        "'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "'project_id' INTEGER," +
+                        "'subject' TEXT," +
+                        "'type' TEXT," +
+                        "'priority' INTEGER," +
+                        "'user_id' INTEGER," +
+                        "'description' TEXT" +
+                        ")");
     }
 }
