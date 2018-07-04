@@ -1,31 +1,111 @@
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Label?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<HBox depthTest="ENABLE" prefHeight="100.0" prefWidth="200.0">
-    <children>
-        <VBox prefHeight="348.0" prefWidth="234.0">
-            <children>
-                <Label prefHeight="16.0" prefWidth="233.0" text="List of task" />
-                <ListView prefHeight="291.0" prefWidth="234.0" />
-                <HBox alignment="TOP_RIGHT" prefHeight="49.0" prefWidth="234.0">
-                    <children>
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="add">
-                            <HBox.margin>
-                                <Insets left="10.0" right="10.0" top="10.0" />
-                            </HBox.margin>
-                        </Button>
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="delete" textAlignment="CENTER">
-                            <HBox.margin>
-                                <Insets left="10.0" right="10.0" top="10.0" />
-                            </HBox.margin>
-                        </Button>
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
-    </children>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox depthTest="ENABLE" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="sample.ProjectController">
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
+    <VBox>
+        <HBox.margin>
+            <Insets left="5.0" right="5.0"/>
+        </HBox.margin>
+        <HBox>
+            <Label text="Project name:"/>
+            <TextField fx:id="textFieldName" onKeyReleased="#handleKeyReleasedAction" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <Label text="List of task"/>
+        <ListView/>
+        <HBox alignment="TOP_RIGHT" prefHeight="49.0" prefWidth="234.0">
+            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleSaveAction" text="save"
+                    HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </HBox.margin>
+            </Button>
+            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="add" HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </HBox.margin>
+            </Button>
+            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="delete" textAlignment="CENTER"
+                    HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </VBox>
+    <VBox>
+        <HBox.margin>
+            <Insets left="5.0"/>
+        </HBox.margin>
+        <HBox>
+            <Label text="Subject:">
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </Label>
+            <TextField HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </TextField>
+            <Label text="Type:">
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </Label>
+            <TextField HBox.hgrow="ALWAYS">
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </TextField>
+        </HBox>
+        <HBox>
+            <Label text="Priority:">
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </Label>
+            <ChoiceBox HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </ChoiceBox>
+            <Label text="Executor:">
+                <HBox.margin>
+                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                </HBox.margin>
+            </Label>
+            <ChoiceBox HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets top="3.0"/>
+                </HBox.margin>
+            </ChoiceBox>
+        </HBox>
+        <TextArea VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </TextArea>
+    </VBox>
 </HBox>
