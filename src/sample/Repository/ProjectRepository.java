@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRepository implements Repository<Project>{
+public class ProjectRepository implements Repository<Project> {
 
     private String url;
 
@@ -16,12 +16,13 @@ public class ProjectRepository implements Repository<Project>{
         url = "jdbc:sqlite:" + fileName.getAbsolutePath();
         Connection conn = DriverManager.getConnection(url);
     }
+
     @Override
     public Project add(Project item) {
         String sql = "INSERT INTO projects(name) VALUES(?)";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1,item.getName() );
+            pstmt.setString(1, item.getName());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             item.setId(rs.getInt(1));
@@ -40,10 +41,11 @@ public class ProjectRepository implements Repository<Project>{
     @Override
     public Project update(Project item) {
         String sql = "UPDATE projects SET name = ?"
-                + "WHERE id = ?";
+                + " WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, item.getName());
+            pstmt.setInt(2, item.getId());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             item.setId(rs.getInt(1));
@@ -78,8 +80,8 @@ public class ProjectRepository implements Repository<Project>{
         String sql = "SELECT id, name FROM projects " + specification;
         List<Project> list = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt  = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)){
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Project user = new Project();
                 user.setId(rs.getInt("id"));
