@@ -19,6 +19,7 @@ import sample.Repository.UserRepository;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 public class Controller {
@@ -31,6 +32,7 @@ public class Controller {
     private Stage primaryStage;
     private boolean isFileDbLoaded = false;
     private boolean isUserLogined = false;
+    private List<Project> projectList;
 
     public void handleAboutAction(ActionEvent actionEvent) {
     }
@@ -75,7 +77,10 @@ public class Controller {
     }
 
     public void handleAddProjectAction(Event event) {
-        addNewProject();
+        Project project = new Project();
+        project = projectRepository.add(project);
+        projectList.add(project);
+        addTabProject(project);
     }
 
     private void showAddUserDialog(){
@@ -121,6 +126,11 @@ public class Controller {
             File fileDB = new File(props.getProperty("lastDB", "/TEST.db"));
             DataBaseHandler.getInstance().CreateDB(fileDB);
             userRepository = new UserRepository(fileDB);
+            projectRepository = new ProjectRepository(fileDB);
+            projectList = projectRepository.query("");
+            for (Project aProjectList : projectList) {
+                addTabProject(aProjectList);
+            }
             setTitleName(fileDB);
         }
         catch ( Exception e ) { }
@@ -138,20 +148,25 @@ public class Controller {
         }
     }
 
-    private void addNewProject(){
+    private void addTabProject(Project project){
         try {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("resources/projectTab.fxml"));
         Tab tab = new Tab();
-        tab.setText("project");
         HBox hbox = loader.load();
         tab.setContent(hbox);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
-        Project project = new Project();
-        //projectRepository.add();
+        ProjectController projectController = loader.getController();
+        projectController.setData(tab,project,projectRepository);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleDeleteProjectAction(ActionEvent actionEvent) {
+        projectRepository.remove(projectList.get(tabPane.getSelectionModel().getSelectedIndex()));
+        projectList.remove(tabPane.getSelectionModel().getSelectedIndex());
+        tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
     }
 }
