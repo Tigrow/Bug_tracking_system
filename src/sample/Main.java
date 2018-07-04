@@ -15,7 +15,7 @@ public class Main extends Application {
         loader.setLocation(getClass().getResource("resources/menu.fxml"));
         VBox page =  loader.load();
         primaryStage.setTitle("Bug Tracking System");
-        primaryStage.setScene(new Scene(page, 800, 600));
+        primaryStage.setScene(new Scene(page, 750, 500));
         primaryStage.show();
 
         Controller controller = loader.getController();
