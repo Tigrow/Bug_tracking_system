@@ -27,18 +27,8 @@ public class Controller {
 
     private UserRepository userRepository;
 
-    public void loadView(){
-        File file = loadParams();
-        try {
-            userRepository = new UserRepository(file);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void handleKeyInput(KeyEvent keyEvent) {
     }
-
 
     public void handleAboutAction(ActionEvent actionEvent) {
     }
@@ -48,8 +38,10 @@ public class Controller {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(null);
         try {
+            if(file!=null){
             userRepository = new UserRepository(file);
             saveParamChanges(file);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,8 +53,10 @@ public class Controller {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(null);
         try {
+            if(file!=null){
             DataBaseHandler.getInstance().CreateDB(file);
             userRepository = new UserRepository(file);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -94,25 +88,24 @@ public class Controller {
         }
     }
 
-    public File loadParams() {
+    private void loadParams() {
         Properties props = new Properties();
-        InputStream is = null;
+        InputStream is;
         try {
             File file = new File("prop.properties");
             is = new FileInputStream(file);
-        }
-        catch ( Exception e ) { is = null; }
-        try {
             if (is == null) {
                 is = getClass().getResourceAsStream("prop.properties");
             }
             props.load(is);
+            File fileDB = new File(props.getProperty("lastDB", "/TEST.db"));
+            DataBaseHandler.getInstance().CreateDB(fileDB);
+            userRepository = new UserRepository(fileDB);
         }
         catch ( Exception e ) { }
-        return new File(props.getProperty("lastDB", "/TEST.db"));
     }
 
-    public void saveParamChanges(File file) {
+    private void saveParamChanges(File file) {
         try {
             Properties props = new Properties();
             props.setProperty("lastDB", ""+file.getAbsolutePath());
@@ -125,6 +118,7 @@ public class Controller {
     }
 
     public void handleAddProjectAction(Event event) {
+        loadParams();
         addNewTab();
     }
 
@@ -137,6 +131,7 @@ public class Controller {
         HBox hbox = loader.load();
         tab.setContent(hbox);
         tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
         } catch (IOException e) {
             e.printStackTrace();
         }
