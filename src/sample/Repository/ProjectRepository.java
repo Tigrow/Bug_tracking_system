@@ -83,10 +83,10 @@ public class ProjectRepository implements Repository<Project> {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                Project user = new Project();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                list.add(user);
+                Project item = new Project();
+                item.setId(rs.getInt("id"));
+                item.setName(rs.getString("name"));
+                list.add(item);
             }
             return list;
         } catch (SQLException e) {
