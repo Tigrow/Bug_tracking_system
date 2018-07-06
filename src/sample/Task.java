@@ -1,12 +1,21 @@
 package sample;
 
 public class Task {
+    private int id;
     private int projectId;
     private String Subject;
     private String type;
     private int priority;
     private int userId;
     private String description;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getProjectId() {
         return projectId;
