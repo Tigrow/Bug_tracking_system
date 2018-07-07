@@ -91,7 +91,6 @@ public class Controller {
             ShowUserController controller = loader.getController();
             controller.OnStart(userList, dialogStage);
             dialogStage.showAndWait();
-            userList = FXCollections.observableList(userRepository.query(""));
         } catch (IOException e) {
             e.printStackTrace();
         }
