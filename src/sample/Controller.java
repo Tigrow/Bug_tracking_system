@@ -103,7 +103,7 @@ public class Controller {
                 "]");
     }
 
-    private void loadDataBase(File file){
+    private void loadDataBase(File file) {
         try {
             if (file != null) {
                 DataBaseHandler.getInstance().CreateDB(file);
@@ -120,19 +120,18 @@ public class Controller {
                     addTabProject(aProjectList);
                 }
                 userList.addListener((ListChangeListener<User>) c -> {
-                    while (c.next()){
-                        if(c.wasReplaced()){
-                            for(int i = c.getFrom();i<c.getTo();i++){
+                    while (c.next()) {
+                        if (c.wasReplaced()) {
+                            for (int i = c.getFrom(); i < c.getTo(); i++) {
                                 userRepository.update(c.getList().get(i));
                             }
-                        }else{
-                            if(c.wasRemoved()){
-                                c.getRemoved().forEach(user->userRepository.remove(user));
+                        } else {
+                            if (c.wasRemoved()) {
+                                c.getRemoved().forEach(user -> userRepository.remove(user));
                             }
-                            if(c.wasAdded()){
-                                for(int i = c.getFrom();i<c.getTo();i++) {
-                                    c.getList().get(i).setId(userRepository.add(c.getList().get(i)).getId());
-                                }
+                            if (c.wasAdded()) {
+                                int userId = userRepository.add(c.getList().get(c.getFrom())).getId();
+                                c.getList().get(c.getFrom()).setId(userId);
                             }
                         }
                     }
@@ -178,7 +177,7 @@ public class Controller {
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             ProjectController projectController = loader.getController();
-            projectController.setData(tab, project, projectRepository,taskRepository,userList);
+            projectController.setData(tab, project, projectRepository, taskRepository, userList);
         } catch (IOException e) {
             e.printStackTrace();
         }
