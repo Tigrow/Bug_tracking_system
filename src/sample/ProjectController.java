@@ -17,7 +17,7 @@ public class ProjectController {
     public TextField textFieldSubject;
     public TextField textFieldType;
     public ChoiceBox choiceBoxPriority;
-    public ChoiceBox choiceBoxExecutor;
+    public ChoiceBox<User> choiceBoxExecutor;
     public TextArea textAreaDescription;
 
     private Tab tab;
@@ -26,11 +26,12 @@ public class ProjectController {
     private TaskRepository taskRepository;
     private ObservableList<Task> list;
 
-    void setData(Tab tab, Project project, ProjectRepository projectRepository, TaskRepository taskRepository) {
+    void setData(Tab tab, Project project, ProjectRepository projectRepository, TaskRepository taskRepository,ObservableList<User> userList) {
         this.tab = tab;
         this.project = project;
         this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
+        choiceBoxExecutor.setItems(userList);
         tab.setText(project.getName());
         textFieldName.setText(project.getName());
         list = FXCollections.observableList(

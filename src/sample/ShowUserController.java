@@ -18,14 +18,12 @@ public class ShowUserController {
     @FXML
     private ListView<User> listView;
 
-    private UserRepository userRepository;
     private Stage usersStage;
     private ObservableList<User> list;
 
-    void OnStart(UserRepository userRepository, Stage usersStage){
+    void OnStart(ObservableList<User> userList, Stage usersStage){
         this.usersStage = usersStage;
-        this.userRepository = userRepository;
-        list = FXCollections.observableList(userRepository.query(""));
+        this.list = userList;
         listView.setItems(list);
     }
 
@@ -50,7 +48,7 @@ public class ShowUserController {
         controller.start(dialogStage,user,0,false);
         dialogStage.showAndWait();
         if(controller.isOkClicked()){
-            list.add(userRepository.add(user));
+            list.add(user);
         }
     }
 
@@ -75,13 +73,12 @@ public class ShowUserController {
         controller.start(dialogStage,user,0,true);
         dialogStage.showAndWait();
         if(controller.isOkClicked()){
-            userRepository.update(user);
             list.set(listView.getSelectionModel().getSelectedIndex(),user);
         }
     }
 
     public void handleDeleteAction(ActionEvent actionEvent) {
-        userRepository.remove(listView.getSelectionModel().getSelectedItem());
         list.remove(listView.getSelectionModel().getSelectedIndex());
+
     }
 }

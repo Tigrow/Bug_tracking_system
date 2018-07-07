@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -35,6 +38,7 @@ public class Controller {
     private boolean isFileDbLoaded = false;
     private boolean isUserLogined = false;
     private List<Project> projectList;
+    private ObservableList<User> userList;
 
 
     public void handleLoadDBAction(ActionEvent actionEvent) {
@@ -85,8 +89,9 @@ public class Controller {
             dialogStage.setScene(scene);
 
             ShowUserController controller = loader.getController();
-            controller.OnStart(userRepository, dialogStage);
-            dialogStage.show();
+            controller.OnStart(userList, dialogStage);
+            dialogStage.showAndWait();
+            userList = FXCollections.observableList(userRepository.query(""));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,9 +115,28 @@ public class Controller {
                 isFileDbLoaded = true;
                 tabPane.getTabs().clear();
                 projectList = projectRepository.query("");
+                userList = FXCollections.observableList(userRepository.query(""));
                 for (Project aProjectList : projectList) {
                     addTabProject(aProjectList);
                 }
+                userList.addListener((ListChangeListener<User>) c -> {
+                    while (c.next()){
+                        if(c.wasReplaced()){
+                            for(int i = c.getFrom();i<c.getTo();i++){
+                                userRepository.update(c.getList().get(i));
+                            }
+                        }else{
+                            if(c.wasRemoved()){
+                                c.getRemoved().forEach(user->userRepository.remove(user));
+                            }
+                            if(c.wasAdded()){
+                                for(int i = c.getFrom();i<c.getTo();i++) {
+                                    c.getList().get(i).setId(userRepository.add(c.getList().get(i)).getId());
+                                }
+                            }
+                        }
+                    }
+                });
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,7 +178,7 @@ public class Controller {
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             ProjectController projectController = loader.getController();
-            projectController.setData(tab, project, projectRepository,taskRepository);
+            projectController.setData(tab, project, projectRepository,taskRepository,userList);
         } catch (IOException e) {
             e.printStackTrace();
         }
