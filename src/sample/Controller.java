@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyEvent;
@@ -26,6 +28,7 @@ import sample.Repository.UserRepository;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Predicate;
 
@@ -46,7 +49,7 @@ public class Controller {
     private ObservableList<User> userList;
 
 
-    public void handleLoadDBAction(ActionEvent actionEvent) {
+    public void handleLoadDBAction() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DB files (*.DB)", "*.DB");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -56,7 +59,7 @@ public class Controller {
 
     }
 
-    public void handleNewDBAction(ActionEvent actionEvent) {
+    public void handleNewDBAction() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DB files (*.DB)", "*.DB");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -65,21 +68,25 @@ public class Controller {
             loadDataBase(file);
     }
 
-    public void handleAddUserAction(ActionEvent actionEvent) {
+    public void handleAddUserAction() {
         showAddUserDialog();
     }
 
-    public void handleAddProjectAction(Event event) {
+    public void handleAddProjectAction() {
         Project project = new Project();
         project = projectRepository.add(project);
         projectList.add(project);
         addTabProject(project);
     }
 
-    public void handleDeleteProjectAction(ActionEvent actionEvent) {
-        projectRepository.remove(projectList.get(tabPane.getSelectionModel().getSelectedIndex()));
-        projectList.remove(tabPane.getSelectionModel().getSelectedIndex());
-        tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
+    public void handleDeleteProjectAction() {
+            int taskCount = (int) taskList.stream().filter(task ->
+                            task.getProjectId() == projectList.get(tabPane.getSelectionModel()
+                                    .getSelectedIndex()).getId()).count();
+            if(taskCount == 0 ||showDialogQuestion(taskCount) ) {
+                projectList.remove(tabPane.getSelectionModel().getSelectedIndex());
+                tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
+            }
     }
 
     private void showAddUserDialog() {
@@ -160,7 +167,7 @@ public class Controller {
                             c.getList().get(c.getFrom()).setId(projectId);
                         }
                         if (c.wasRemoved()) {
-                            c.getRemoved().forEach(project -> projectRepository.remove(project));
+                            c.getRemoved().forEach(project->projectRepository.remove(project));
                         }
                     }
                 });
@@ -169,6 +176,14 @@ public class Controller {
             e.printStackTrace();
             isFileDbLoaded = false;
         }
+    }
+
+    private boolean showDialogQuestion(int count){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("There are "+Integer.toString(count)+" tasks in the project");
+        alert.setContentText("Do you want to delete this?");
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.get() == ButtonType.OK;
     }
 
     void loadParams(Stage primaryStage) {
