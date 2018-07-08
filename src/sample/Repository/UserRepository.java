@@ -17,7 +17,7 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public User add(User item) {
-        String sql = "INSERT INTO users(name,password) VALUES(?,?,?)";
+        String sql = "INSERT INTO users(name,password) VALUES(?,?)";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,item.getName() );

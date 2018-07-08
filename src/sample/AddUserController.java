@@ -25,7 +25,7 @@ public class AddUserController {
         dialogStage.close();
     }
 
-    public void start(Stage dialogStage,User user,int priority,boolean editing) {
+    void start(Stage dialogStage, User user, boolean editing) {
         this.user = user;
         this.dialogStage = dialogStage;
         if(editing){
@@ -33,7 +33,7 @@ public class AddUserController {
         }
     }
 
-    public boolean isOkClicked() {
+    boolean isOkClicked() {
         return okClicked;
     }
 

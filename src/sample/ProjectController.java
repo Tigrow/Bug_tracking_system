@@ -1,16 +1,11 @@
 package sample;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
-import sample.Repository.ProjectRepository;
-import sample.Repository.TaskRepository;
 
 public class ProjectController {
     public TextField textFieldName;
@@ -98,7 +93,7 @@ public class ProjectController {
         textAreaDescription.setDisable(b);
         choiceBoxExecutor.setDisable(b);
         choiceBoxPriority.setDisable(b);
-        if (b){
+        if (b) {
             choiceBoxPriority.getSelectionModel().clearSelection();
             choiceBoxExecutor.getSelectionModel().clearSelection();
         }

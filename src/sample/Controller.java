@@ -3,9 +3,6 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,24 +10,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import sample.Repository.ProjectRepository;
 import sample.Repository.TaskRepository;
 import sample.Repository.UserRepository;
 
 import java.io.*;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.function.Predicate;
 
 public class Controller {
 
@@ -41,9 +33,7 @@ public class Controller {
     private ProjectRepository projectRepository;
     private TaskRepository taskRepository;
     private Stage primaryStage;
-    private User LoginedUser;
     private boolean isFileDbLoaded = false;
-    private boolean isUserLogined = false;
     private ObservableList<Project> projectList;
     private ObservableList<Task> taskList;
     private ObservableList<User> userList;
@@ -103,7 +93,7 @@ public class Controller {
             dialogStage.setScene(scene);
 
             ShowUserController controller = loader.getController();
-            controller.OnStart(userList, dialogStage);
+            controller.OnStart(userList, dialogStage, taskList);
             dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
