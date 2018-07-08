@@ -17,7 +17,7 @@ public class ProjectController {
     public ListView<Task> listViewTask;
     public TextField textFieldSubject;
     public TextField textFieldType;
-    public ChoiceBox choiceBoxPriority;
+    public ChoiceBox<String> choiceBoxPriority;
     public ChoiceBox<User> choiceBoxExecutor;
     public TextArea textAreaDescription;
 
@@ -31,10 +31,9 @@ public class ProjectController {
         this.taskList = taskList;
         setUIDisable(true);
         choiceBoxExecutor.setItems(userList);
+        choiceBoxPriority.setItems(FXCollections.observableArrayList("low", "medium", "hight"));
         tab.setText(project.getName());
         textFieldName.setText(project.getName());
-        /*list = FXCollections.observableList(
-                taskRepository.query("where project_id = "+ Integer.toString(project.getId())));*/
         listViewTask.setItems(taskList.filtered(user -> user.getProjectId() == project.getId()));
         listViewTask.setCellFactory(new Callback<ListView<Task>, ListCell<Task>>() {
             @Override
@@ -52,26 +51,32 @@ public class ProjectController {
             }
         });
         listViewTask.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue !=null) {
+            if (newValue != null) {
                 textFieldSubject.setText(newValue.getSubject());
                 textFieldType.setText(newValue.getType());
                 textAreaDescription.setText(newValue.getDescription());
+                choiceBoxPriority.getSelectionModel().select(newValue.getPriority());
                 for (int i = 0; i < choiceBoxExecutor.getItems().size(); i++) {
                     if (choiceBoxExecutor.getItems().get(i).getId() == newValue.getUserId()) {
                         choiceBoxExecutor.getSelectionModel().select(i);
                         break;
-                    } else
-                        choiceBoxExecutor.getSelectionModel().clearSelection();
+                    }
+
                 }
                 setUIDisable(false);
-            }else{
+            } else {
                 setUIDisable(true);
             }
-            //TODO choiceBoxPriority and
         });
         choiceBoxExecutor.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null)
                 listViewTask.getSelectionModel().getSelectedItem().setUserId(newValue.getId());
+        });
+
+        choiceBoxPriority.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null)
+                listViewTask.getSelectionModel()
+                        .getSelectedItem().setPriority(choiceBoxPriority.getSelectionModel().getSelectedIndex());
         });
 
         textFieldSubject.setOnKeyReleased(event ->
@@ -93,6 +98,10 @@ public class ProjectController {
         textAreaDescription.setDisable(b);
         choiceBoxExecutor.setDisable(b);
         choiceBoxPriority.setDisable(b);
+        if (b){
+            choiceBoxPriority.getSelectionModel().clearSelection();
+            choiceBoxExecutor.getSelectionModel().clearSelection();
+        }
     }
 
     public void handleAddTaskAction(ActionEvent actionEvent) {
@@ -108,7 +117,7 @@ public class ProjectController {
     }
 
     public void handleDeleteAction(ActionEvent actionEvent) {
-        if(listViewTask.getSelectionModel().getSelectedItem() !=null)
-        taskList.remove(listViewTask.getSelectionModel().getSelectedIndex());
+        if (listViewTask.getSelectionModel().getSelectedItem() != null)
+            taskList.remove(listViewTask.getSelectionModel().getSelectedIndex());
     }
 }

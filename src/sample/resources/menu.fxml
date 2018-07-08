@@ -15,8 +15,6 @@
         <Menu text="File">
             <MenuItem onAction="#handleNewDBAction" text="New" />
             <MenuItem onAction="#handleLoadDBAction" text="Open" />
-            <MenuItem text="Save" />
-            <MenuItem text="Save As" />
             <SeparatorMenuItem />
             <MenuItem text="Exit" />
         </Menu>
