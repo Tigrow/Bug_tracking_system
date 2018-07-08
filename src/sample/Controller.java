@@ -5,6 +5,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import sample.Repository.ProjectRepository;
 import sample.Repository.TaskRepository;
 import sample.Repository.UserRepository;
@@ -25,6 +27,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Predicate;
 
 public class Controller {
 
@@ -35,9 +38,11 @@ public class Controller {
     private ProjectRepository projectRepository;
     private TaskRepository taskRepository;
     private Stage primaryStage;
+    private User LoginedUser;
     private boolean isFileDbLoaded = false;
     private boolean isUserLogined = false;
     private List<Project> projectList;
+    private ObservableList<Task> taskList;
     private ObservableList<User> userList;
 
 
@@ -115,6 +120,7 @@ public class Controller {
                 tabPane.getTabs().clear();
                 projectList = projectRepository.query("");
                 userList = FXCollections.observableList(userRepository.query(""));
+                taskList = FXCollections.observableList(taskRepository.query(""));
                 for (Project aProjectList : projectList) {
                     addTabProject(aProjectList);
                 }
@@ -135,6 +141,18 @@ public class Controller {
                         }
                     }
                 });
+                taskList.addListener((ListChangeListener<Task>) c -> {
+                    while(c.next()){
+                        if(c.wasAdded()){
+                            int taskId = taskRepository.add(c.getList().get(c.getFrom())).getId();
+                            c.getList().get(c.getFrom()).setId(taskId);
+                        }
+                        if(c.wasRemoved()){
+                            c.getRemoved().forEach(task -> taskRepository.remove(task));
+                        }
+                    }
+                });
+                userList.filtered(user -> false);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -153,6 +171,12 @@ public class Controller {
             loadDataBase(fileDB);
         } catch (Exception ignored) {
         }
+        primaryStage.setOnCloseRequest(event -> {
+            projectList.forEach(project ->
+                    projectRepository.update(project));
+            taskList.forEach(task ->
+                    taskRepository.update(task));
+        });
     }
 
     private void saveParamChanges(File file) {
@@ -176,7 +200,9 @@ public class Controller {
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             ProjectController projectController = loader.getController();
-            projectController.setData(tab, project, projectRepository, taskRepository, userList);
+            projectController.setData(tab, project, projectRepository,
+                    taskList,
+                    userList);
         } catch (IOException e) {
             e.printStackTrace();
         }
