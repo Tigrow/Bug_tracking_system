@@ -41,7 +41,7 @@ public class Controller {
     private User LoginedUser;
     private boolean isFileDbLoaded = false;
     private boolean isUserLogined = false;
-    private List<Project> projectList;
+    private ObservableList<Project> projectList;
     private ObservableList<Task> taskList;
     private ObservableList<User> userList;
 
@@ -51,7 +51,8 @@ public class Controller {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DB files (*.DB)", "*.DB");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showOpenDialog(primaryStage);
-        loadDataBase(file);
+        if (file != null)
+            loadDataBase(file);
 
     }
 
@@ -60,7 +61,8 @@ public class Controller {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("DB files (*.DB)", "*.DB");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(primaryStage);
-        loadDataBase(file);
+        if (file != null)
+            loadDataBase(file);
     }
 
     public void handleAddUserAction(ActionEvent actionEvent) {
@@ -116,11 +118,10 @@ public class Controller {
                 taskRepository = new TaskRepository(file);
                 saveParamChanges(file);
                 setTitleName(file);
-                isFileDbLoaded = true;
-                tabPane.getTabs().clear();
-                projectList = projectRepository.query("");
+                projectList = FXCollections.observableList(projectRepository.query(""));
                 userList = FXCollections.observableList(userRepository.query(""));
                 taskList = FXCollections.observableList(taskRepository.query(""));
+                tabPane.getTabs().clear();
                 for (Project aProjectList : projectList) {
                     addTabProject(aProjectList);
                 }
@@ -142,20 +143,31 @@ public class Controller {
                     }
                 });
                 taskList.addListener((ListChangeListener<Task>) c -> {
-                    while(c.next()){
-                        if(c.wasAdded()){
+                    while (c.next()) {
+                        if (c.wasAdded()) {
                             int taskId = taskRepository.add(c.getList().get(c.getFrom())).getId();
                             c.getList().get(c.getFrom()).setId(taskId);
                         }
-                        if(c.wasRemoved()){
+                        if (c.wasRemoved()) {
                             c.getRemoved().forEach(task -> taskRepository.remove(task));
                         }
                     }
                 });
-                userList.filtered(user -> false);
+                projectList.addListener((ListChangeListener<Project>) c -> {
+                    while(c.next()){
+                        if (c.wasAdded()) {
+                            int projectId = projectRepository.add(c.getList().get(c.getFrom())).getId();
+                            c.getList().get(c.getFrom()).setId(projectId);
+                        }
+                        if (c.wasRemoved()) {
+                            c.getRemoved().forEach(project -> projectRepository.remove(project));
+                        }
+                    }
+                });
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            isFileDbLoaded = false;
         }
     }
 
@@ -171,12 +183,14 @@ public class Controller {
             loadDataBase(fileDB);
         } catch (Exception ignored) {
         }
-        primaryStage.setOnCloseRequest(event -> {
-            projectList.forEach(project ->
-                    projectRepository.update(project));
-            taskList.forEach(task ->
-                    taskRepository.update(task));
-        });
+        primaryStage.setOnCloseRequest(event -> saveDB());
+    }
+
+    private void saveDB() {
+        projectList.forEach(project ->
+                projectRepository.update(project));
+        taskList.forEach(task ->
+                taskRepository.update(task));
     }
 
     private void saveParamChanges(File file) {
