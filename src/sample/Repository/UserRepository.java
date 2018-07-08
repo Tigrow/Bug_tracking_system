@@ -17,12 +17,11 @@ public class UserRepository implements Repository<User> {
 
     @Override
     public User add(User item) {
-        String sql = "INSERT INTO users(name,priority,password) VALUES(?,?,?)";
+        String sql = "INSERT INTO users(name,password) VALUES(?,?,?)";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1,item.getName() );
-            pstmt.setInt(2, item.getPriority());
-            pstmt.setString(3,item.getPassword());
+            pstmt.setString(2,item.getPassword());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             item.setId(rs.getInt(1));
@@ -34,14 +33,8 @@ public class UserRepository implements Repository<User> {
     }
 
     @Override
-    public void add(Iterable<User> items) {
-
-    }
-
-    @Override
     public User update(User item) {
         String sql = "UPDATE users SET name = ? , "
-                + "priority = ?,"
                 + "password = ?"
                 + "WHERE id = ?";
 
@@ -49,9 +42,8 @@ public class UserRepository implements Repository<User> {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, item.getName());
-            pstmt.setInt(2, item.getPriority());
-            pstmt.setString(3,item.getPassword());
-            pstmt.setInt(4, item.getId());
+            pstmt.setString(2,item.getPassword());
+            pstmt.setInt(3, item.getId());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             item.setId(rs.getInt(1));
@@ -77,13 +69,8 @@ public class UserRepository implements Repository<User> {
     }
 
     @Override
-    public void remove(String specification) {
-
-    }
-
-    @Override
     public List<User> query(String specification) {
-        String sql = "SELECT id, name, priority, password FROM users " + specification;
+        String sql = "SELECT id, name, password FROM users " + specification;
         List<User> list = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();
@@ -92,7 +79,6 @@ public class UserRepository implements Repository<User> {
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
-                user.setPriority(rs.getInt("priority"));
                 user.setPassword(rs.getString("password"));
                 list.add(user);
             }

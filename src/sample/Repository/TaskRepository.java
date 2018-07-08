@@ -37,11 +37,6 @@ public class TaskRepository implements Repository<Task> {
     }
 
     @Override
-    public void add(Iterable<Task> items) {
-
-    }
-
-    @Override
     public Task update(Task item) {
         String sql = "UPDATE tasks SET project_id = ?," +
                 "subject = ?," +
@@ -80,11 +75,6 @@ public class TaskRepository implements Repository<Task> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    @Override
-    public void remove(String specification) {
-
     }
 
     @Override

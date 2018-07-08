@@ -3,7 +3,6 @@ package sample;
 public class User {
     private int id;
     private String name;
-    private int priority;
     private String password;
 
     public int getId() {
@@ -20,14 +19,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public String getPassword() {

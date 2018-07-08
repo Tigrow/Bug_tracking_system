@@ -34,11 +34,6 @@ public class ProjectRepository implements Repository<Project> {
     }
 
     @Override
-    public void add(Iterable<Project> items) {
-
-    }
-
-    @Override
     public Project update(Project item) {
         String sql = "UPDATE projects SET name = ?"
                 + " WHERE id = ?";
@@ -68,11 +63,6 @@ public class ProjectRepository implements Repository<Project> {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    @Override
-    public void remove(String specification) {
-
     }
 
     @Override
