@@ -214,9 +214,7 @@ public class Controller {
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
             ProjectController projectController = loader.getController();
-            projectController.setData(tab, project, projectRepository,
-                    taskList,
-                    userList);
+            projectController.setData(tab, project, taskList, userList);
         } catch (IOException e) {
             e.printStackTrace();
         }

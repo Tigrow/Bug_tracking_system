@@ -23,15 +23,13 @@ public class ProjectController {
 
     private Tab tab;
     private Project project;
-    private ProjectRepository projectRepository;
-    // private TaskRepository taskRepository;
     private ObservableList<Task> taskList;
 
-    void setData(Tab tab, Project project, ProjectRepository projectRepository, ObservableList<Task> taskList, ObservableList<User> userList) {
+    void setData(Tab tab, Project project, ObservableList<Task> taskList, ObservableList<User> userList) {
         this.tab = tab;
         this.project = project;
-        this.projectRepository = projectRepository;
         this.taskList = taskList;
+        setUIDisable(true);
         choiceBoxExecutor.setItems(userList);
         tab.setText(project.getName());
         textFieldName.setText(project.getName());
@@ -54,22 +52,26 @@ public class ProjectController {
             }
         });
         listViewTask.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            textFieldSubject.setText(newValue.getSubject());
-            textFieldType.setText(newValue.getType());
-            textAreaDescription.setText(newValue.getDescription());
-            for (int i = 0; i < choiceBoxExecutor.getItems().size(); i++) {
-                if (choiceBoxExecutor.getItems().get(i).getId() == newValue.getUserId()){
-                    choiceBoxExecutor.getSelectionModel().select(i);
-                    break;
+            if(newValue !=null) {
+                textFieldSubject.setText(newValue.getSubject());
+                textFieldType.setText(newValue.getType());
+                textAreaDescription.setText(newValue.getDescription());
+                for (int i = 0; i < choiceBoxExecutor.getItems().size(); i++) {
+                    if (choiceBoxExecutor.getItems().get(i).getId() == newValue.getUserId()) {
+                        choiceBoxExecutor.getSelectionModel().select(i);
+                        break;
+                    } else
+                        choiceBoxExecutor.getSelectionModel().clearSelection();
                 }
-                else
-                    choiceBoxExecutor.getSelectionModel().clearSelection();
+                setUIDisable(false);
+            }else{
+                setUIDisable(true);
             }
             //TODO choiceBoxPriority and
         });
         choiceBoxExecutor.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue!=null)
-            listViewTask.getSelectionModel().getSelectedItem().setUserId(newValue.getId());
+            if (newValue != null)
+                listViewTask.getSelectionModel().getSelectedItem().setUserId(newValue.getId());
         });
 
         textFieldSubject.setOnKeyReleased(event ->
@@ -85,19 +87,18 @@ public class ProjectController {
                 listViewTask.getSelectionModel().getSelectedItem().setType(textFieldType.getText()));
     }
 
-    private void saveAll() {
-        projectRepository.update(project);
-    }
-
-    public void handleSaveAction(ActionEvent actionEvent) {
-        saveAll();
+    private void setUIDisable(boolean b) {
+        textFieldType.setDisable(b);
+        textFieldSubject.setDisable(b);
+        textAreaDescription.setDisable(b);
+        choiceBoxExecutor.setDisable(b);
+        choiceBoxPriority.setDisable(b);
     }
 
     public void handleAddTaskAction(ActionEvent actionEvent) {
         Task task = new Task();
         task.setProjectId(project.getId());
         task.setSubject("new Task");
-        //task = taskRepository.add(task);
         taskList.add(task);
     }
 
@@ -106,8 +107,8 @@ public class ProjectController {
         tab.setText(project.getName());
     }
 
-    public void handleKeyReleasedSubjectAction(KeyEvent keyEvent) {
-        //TODO
-
+    public void handleDeleteAction(ActionEvent actionEvent) {
+        if(listViewTask.getSelectionModel().getSelectedItem() !=null)
+        taskList.remove(listViewTask.getSelectionModel().getSelectedIndex());
     }
 }
