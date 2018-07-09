@@ -70,19 +70,21 @@ public class Controller {
     }
 
     public void handleDeleteProjectAction() {
+        if(tabPane.getSelectionModel().getSelectedIndex()!=-1) {
             int taskCount = (int) taskList.stream().filter(task ->
-                            task.getProjectId() == projectList.get(tabPane.getSelectionModel()
-                                    .getSelectedIndex()).getId()).count();
-            if(taskCount == 0 ||showDialogQuestion(taskCount) ) {
-                for(int i = 0;i<taskList.size();i++){
-                    if(taskList.get(i).getProjectId() ==
-                            projectList.get(tabPane.getSelectionModel().getSelectedIndex()).getId()){
+                    task.getProjectId() == projectList.get(tabPane.getSelectionModel()
+                            .getSelectedIndex()).getId()).count();
+            if (taskCount == 0 || showDialogQuestion(taskCount)) {
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getProjectId() ==
+                            projectList.get(tabPane.getSelectionModel().getSelectedIndex()).getId()) {
                         taskList.remove(i);
                     }
                 }
                 projectList.remove(tabPane.getSelectionModel().getSelectedIndex());
                 tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
             }
+        }
     }
 
     private void showAddUserDialog() {

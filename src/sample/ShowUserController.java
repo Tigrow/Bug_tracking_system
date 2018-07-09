@@ -39,10 +39,12 @@ public class ShowUserController {
     }
 
     public void handleDeleteAction(ActionEvent actionEvent) {
-        int taskCount = (int) taskList.stream().filter(task ->
-                task.getUserId() == listView.getSelectionModel().getSelectedItem().getId()).count();
-        if (taskCount == 0 || showDialogQuestion(taskCount)) {
-            list.remove(listView.getSelectionModel().getSelectedIndex());
+        if(listView.getSelectionModel().getSelectedIndex()!=-1) {
+            int taskCount = (int) taskList.stream().filter(task ->
+                    task.getUserId() == listView.getSelectionModel().getSelectedItem().getId()).count();
+            if (taskCount == 0 || showDialogQuestion(taskCount)) {
+                list.remove(listView.getSelectionModel().getSelectedIndex());
+            }
         }
     }
 
