@@ -55,8 +55,9 @@ public class ProjectController {
                     if (choiceBoxExecutor.getItems().get(i).getId() == newValue.getUserId()) {
                         choiceBoxExecutor.getSelectionModel().select(i);
                         break;
+                    } else {
+                        choiceBoxExecutor.getSelectionModel().clearSelection();
                     }
-
                 }
                 setUIDisable(false);
             } else {

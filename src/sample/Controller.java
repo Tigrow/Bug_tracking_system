@@ -74,6 +74,12 @@ public class Controller {
                             task.getProjectId() == projectList.get(tabPane.getSelectionModel()
                                     .getSelectedIndex()).getId()).count();
             if(taskCount == 0 ||showDialogQuestion(taskCount) ) {
+                for(int i = 0;i<taskList.size();i++){
+                    if(taskList.get(i).getProjectId() ==
+                            projectList.get(tabPane.getSelectionModel().getSelectedIndex()).getId()){
+                        taskList.remove(i);
+                    }
+                }
                 projectList.remove(tabPane.getSelectionModel().getSelectedIndex());
                 tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedIndex());
             }
@@ -204,6 +210,7 @@ public class Controller {
             props.setProperty("lastDB", "" + file.getAbsolutePath());
             File f = new File("prop.properties");
             OutputStream out = new FileOutputStream(f);
+            props.store(out,"last used file path");
         } catch (Exception e) {
             e.printStackTrace();
         }
